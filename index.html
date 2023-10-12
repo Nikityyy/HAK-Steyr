@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>HAK Steyr Digital Learning</title>
+    <style>
+        /* Add the animate class to animate elements */
+        .animate {
+            animation: slideIn 1s forwards;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate2 {
+            animation: slideIn2 1s forwards;
+            opacity: 0;
+            transform: translateX(20px); /* Starts off-screen to the right */
+        }
+
+        @keyframes slideIn2 {
+            to {
+                opacity: 1;
+                transform: translateX(0); /* Moves to the left to its original position */
+            }
+        }
+
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        header {
+            background-color: #9C2B3D;
+            color: #fff;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            padding: 20px;
+        }
+
+        nav ul {
+            background-color: #333;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li:last-child {
+            margin-right: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #9C2B3D;
+            display: inline-block;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .subject input {
+            width: 111px;
+            padding: 5px;
+            margin-bottom: 10px;
+border: 2px solid #9C2B3D; /* Input border */
+            border-radius: 5px; /* Rounded input corners */
+        }
+
+        .calculation input {
+            width: 111px;
+            padding: 5px;
+            margin-bottom: 10px;
+border: 2px solid #9C2B3D; /* Input border */
+            border-radius: 5px; /* Rounded input corners */
+        }
+
+        #class-select {
+            border: 2px solid #9C2B3D; /* Input border */
+            border-radius: 5px; /* Rounded input corners */
+            padding: 5px;
+            width: 125px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: left;
+            /* Align text to the left within the footer */
+        }
+
+        a.lernatelier-link {
+            color: #000; /* Black color */
+            font-size: 20px; /* Larger font size */
+            text-align: right; /* Right-aligned text */
+            text-decoration: none; /* Remove underlines from links */
+            display: block; /* Make it a block element to control width */
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            document.body.classList.add('loaded');
+        };
+
+var subjectMultipliers = {
+    'Religion oder Ethik': [],
+    'Persönlichkeitsbildung und soziale Kompetenz': [],
+    'Bewegung und Sport': [],
+    'Deutsch': [],
+    'Englisch einschließlich Wirtschaftssprache': [],
+    'Spanisch/Italienisch/Französisch': [],
+    'Betriebswirtschaft': [],
+    'Unternehmensrechnung und Controlling': [],
+    'Business Training, Projektmanagement, Übungsfirma u. Case Studies': [],
+    'Wirtschaftsinformatik': [],
+    'Officemanagement und angewandte Informatik': [],
+    'Politische Bildung und Geschichte (Wirtschafts- und Sozialgeschichte)': [],
+    'Geografie (Wirtschaftsgeografie)': [],
+    'Mathematik und angewandte Mathematik': [],
+    'Naturwissenschaften': [],
+    'Kaufmännischer Ausbildungsschwerpunkt + Seminare': [],
+    'Recht': [],
+    'Volkswirtschaft': [],
+    'Internationale Wirtschafts- und Kulturräume': [],
+    'Business Behaviour': [],
+    'Technologie, Ökologie und Warenlehre': []
+};
+
+function addScore(subject, ...scores) {
+    if (subject in subjectMultipliers) {
+        subjectMultipliers[subject] = scores; // Replace the array with the new scores
+    } else {
+        console.error("Subject not found: " + subject);
+    }
+}
+
+addScore('Religion oder Ethik', 5, 10);
+addScore('Persönlichkeitsbildung und soziale Kompetenz', 5, 10);
+addScore('Bewegung und Sport', 5);
+addScore('Deutsch', 5, 15, 30, 45);
+addScore('Englisch einschließlich Wirtschaftssprache', 5, 10, 20, 25, 40);
+addScore('Spanisch/Italienisch/Französisch', 5, 20, 30, 40);
+addScore('Betriebswirtschaft', 5, 15, 35);
+addScore('Unternehmensrechnung und Controlling', 3, 8, 12, 20);
+addScore('Business Training, Projektmanagement, Übungsfirma u. Case Studies', 5, 10, 15);
+addScore('Wirtschaftsinformatik', 5, 10, 15);
+addScore('Officemanagement und angewandte Informatik', 5, 20);
+addScore('Politische Bildung und Geschichte (Wirtschafts- und Sozialgeschichte)', 10, 15, 20);
+addScore('Geografie (Wirtschaftsgeografie)', 5, 10, 15);
+addScore('Mathematik und angewandte Mathematik', 3, 8, 10, 30);
+addScore('Naturwissenschaften', 5, 15);
+addScore('Kaufmännischer Ausbildungsschwerpunkt + Seminare', 5, 15);
+addScore('Recht', 10, 15, 20);
+addScore('Volkswirtschaft', 10, 15, 20);
+addScore('Internationale Wirtschafts- und Kulturräume', 10, 15, 20);
+addScore('Business Behaviour', 5, 10, 20);
+addScore('Technologie, Ökologie und Warenlehre', 5, 10, 20);
+
+function calculateAverage(subject) {
+    if (subject in subjectMultipliers) {
+        var scores = subjectMultipliers[subject];
+        if (scores.length === 0) {
+            return 0; // Return 0 if no scores have been added yet
+        }
+        var sum = scores.reduce((a, b) => a + b, 0);
+        return sum / scores.length;
+    } else {
+        console.error("Subject not found: " + subject);
+        return 0; // Default value if the subject is not found
+    }
+}
+
+        function showClassContent() {
+            var classSelect = document.getElementById('class-select');
+            var classText = document.getElementById('class-text');
+            var faqContainer = document.getElementById('faq-container');
+
+            // Reset animation classes
+            classSelect.classList.remove('animated');
+            classText.classList.remove('animated');
+
+            // Delay removal of 'animate' class for reanimation
+            setTimeout(function () {
+                classSelect.classList.add('animate');
+                classText.classList.add('animate');
+            }, 10);
+
+            var classContent = {
+                '1': [
+                    'Religion oder Ethik',
+                    'Persönlichkeitsbildung und soziale Kompetenz',
+                    'Bewegung und Sport',
+                    'Deutsch',
+                    'Englisch einschließlich Wirtschaftssprache',
+                    'Spanisch/Italienisch/Französisch',
+                    'Betriebswirtschaft',
+                    'Unternehmensrechnung und Controlling',
+                    'Officemanagement und angewandte Informatik',
+                    'Geografie (Wirtschaftsgeografie)',
+                    'Mathematik und angewandte Mathematik',
+                    'Naturwissenschaften'
+                ],
+                '2': [
+                    'Religion oder Ethik',
+                    'Persönlichkeitsbildung und soziale Kompetenz',
+                    'Business Behaviour',
+                    'Bewegung und Sport',
+                    'Deutsch',
+                    'Englisch einschließlich Wirtschaftssprache',
+                    'Spanisch/Italienisch/Französisch',
+                    'Betriebswirtschaft',
+                    'Unternehmensrechnung und Controlling',
+                    'Business Training, Projektmanagement, Übungsfirma u. Case Studies',
+                    'Wirtschaftsinformatik',
+                    'Officemanagement und angewandte Informatik',
+                    'Politische Bildung und Geschichte (Wirtschafts- und Sozialgeschichte)',
+                    'Geografie (Wirtschaftsgeografie)',
+                    'Mathematik und angewandte Mathematik',
+                    'Naturwissenschaften'
+                ],
+                '3': [
+                    'Religion oder Ethik',
+                    'Business Behaviour',
+                    'Bewegung und Sport',
+                    'Deutsch',
+                    'Englisch einschließlich Wirtschaftssprache',
+                    'Spanisch/Italienisch/Französisch',
+                    'Betriebswirtschaft',
+                    'Unternehmensrechnung und Controlling',
+                    'Business Training, Projektmanagement, Übungsfirma u. Case Studies',
+                    'Wirtschaftsinformatik',
+                    'Officemanagement und angewandte Informatik',
+                    'Politische Bildung und Geschichte (Wirtschafts- und Sozialgeschichte)',
+                    'Geografie (Wirtschaftsgeografie)',
+                    'Mathematik und angewandte Mathematik',
+                    'Naturwissenschaften',
+                    'Kaufmännischer Ausbildungsschwerpunkt + Seminare',
+                ],
+                '4': [
+                    'Religion oder Ethik',
+                    'Business Behaviour',
+                    'Bewegung und Sport',
+                    'Deutsch',
+                    'Englisch einschließlich Wirtschaftssprache',
+                    'Spanisch/Italienisch/Französisch',
+                    'Betriebswirtschaft',
+                    'Unternehmensrechnung und Controlling',
+                    'Business Training, Projektmanagement, Übungsfirma u. Case Studies',
+                    'Wirtschaftsinformatik',
+                    'Recht',
+                    'Politische Bildung und Geschichte (Wirtschafts- und Sozialgeschichte)',
+                    'Mathematik und angewandte Mathematik',
+                    'Naturwissenschaften',
+                    'Kaufmännischer Ausbildungsschwerpunkt + Seminare',
+                ],
+                '5': [
+                    'Religion oder Ethik',
+                    'Deutsch',
+                    'Englisch einschließlich Wirtschaftssprache',
+                    'Spanisch/Italienisch/Französisch',
+                    'Betriebswirtschaft',
+                    'Unternehmensrechnung und Controlling',
+                    'Business Training, Projektmanagement, Übungsfirma u. Case Studies',
+                    'Wirtschaftsinformatik',
+                    'Recht',
+                    'Volkswirtschaft',
+                    'Internationale Wirtschafts- und Kulturräume',
+                    'Mathematik und angewandte Mathematik',
+                    'Technologie, Ökologie und Warenlehre',
+                    'Kaufmännischer Ausbildungsschwerpunkt + Seminare',
+                ]
+            };
+
+            var selectedClass = classSelect.value;
+
+            if (selectedClass === "") {
+                classText.innerHTML = '<div class="animate">Wählen Sie eine Klasse aus, um die Aufgaben in Minuten zu konvertieren. Am Ende können Sie ihre echte Zeit, die Sie dafür gebraucht haben in Minuten eintragen und damit einem Algorithmus helfen!</div>';
+                faqContainer.style.display = 'block';
+            } else {
+                var subjects = classContent[selectedClass];
+
+                subjects.sort();
+                var html = '<h2 class="animate">Fächer der ' + selectedClass + '. Klasse</h2>';
+                html += '<form class="animate">';
+
+                for (var i = 0; i < subjects.length; i++) {
+                    html += '<div class="subject animate">';
+                    html += '<label for="' + subjects[i] + '" class="animate">' + subjects[i] + ':</label>';
+                    html += '<input type="number" id="' + subjects[i] + '" name="' + subjects[i] + '_tasks" placeholder="Aufgabenanzahl" oninput="updateCalculation()" class="animate">';
+                    html += '</div>';
+                }
+
+                html += '<div class="calculation animate">';
+                html += '<label for="total_calculation" class="animate">Gesamt:</label>';
+                html += '<input type="text" id="total_calculation" name="total_calculation" readonly placeholder="Zeit in Minuten" class="animate">';
+                html += '</div>';
+
+                html += '</form>';
+                classText.innerHTML = html;
+
+                // Show FAQ container only for "Bitte auswählen"
+                if (selectedClass === "Bitte auswählen") {
+                    faqContainer.style.display = 'block';
+                } else {
+                    faqContainer.style.display = 'none';
+                }
+
+                // Trigger animation after updating content
+                setTimeout(function () {
+                    var animatedElements = document.querySelectorAll('.animate');
+                    animatedElements.forEach(function (element) {
+                        element.classList.add('animated');
+                    });
+                }, 10);
+            }
+        }
+
+function updateCalculation() {
+    var subjectInputs = document.querySelectorAll('.subject input[type="number"]');
+    var totalInput = document.getElementById('total_calculation');
+
+    var total = 0;
+
+    subjectInputs.forEach(function (input) {
+        var subjectName = input.id;
+        var value = parseInt(input.value);
+        if (!isNaN(value)) {
+            var multiplier = calculateAverage(subjectName);
+            total += value * multiplier;
+        }
+    });
+
+    // Use toFixed(2) to round the total to 2 decimal places
+    totalInput.value = total.toFixed(0);
+}
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Willkommen bei <a href="https://www.hak-steyr.at" style="text-decoration: none; color: #fff;">HAK Steyr</a> Digital Learning</h1>
+    </header>
+    <main>
+        <a href="lernatelier.html" class="lernatelier-link animate2">Lernatelier</a>
+
+        <h2 class="animate">Klasse auswählen</h2>
+        <label for="class-select" class="animate">Klasse auswählen:</label>
+        <select id="class-select" onchange="showClassContent()" class="animate">
+            <option value="" selected>Bitte auswählen</option>
+            <option value="1">1. Klasse</option>
+            <option value="2">2. Klasse</option>
+            <option value="3">3. Klasse</option>
+            <option value="4">4. Klasse</option>
+            <option value="5">5. Klasse</option>
+        </select>
+        <div id="class-text" class="animate">
+            Wählen Sie eine Klasse aus, um die Aufgaben in Minuten zu konvertieren. Am Ende können Sie ihre echte Zeit, die Sie dafür gebraucht haben in Minuten eintragen und damit einem Algorithmus helfen!
+        </div>
+
+        <div id="faq-container" class="animate">
+            <h3 class="animate">FAQ</h3>
+            <div class="faq-item animate">
+                <h4 class="animate">Frage 1: Wofür ist diese Webseite?</h4>
+                <p class="animate">Antwort 1: Diese Seite wurde gemacht, um das Lernen zu vereinfachen. Mit einem Algorithmus wird die Zeit berechnet, und bald wird dieser Algorithmus auch durch User-Input verbessert.</p>
+            </div>
+
+            <div class="faq-item animate">
+                <h4 class="animate">Frage 2: Wie trage ich die Aufgabenanzahl ein?</h4>
+                <p class="animate">Antwort 2: Um die Aufgabenanzahl einzutragen, klicken Sie auf das entsprechende Eingabefeld neben dem Fach und geben Sie die Anzahl der Aufgaben ein.</p>
+            </div>
+
+            <div class="faq-item animate">
+                <h4 class="animate">Frage 3: Kann ich die Gesamtzeit manuell ändern?</h4>
+                <p class="animate">Antwort 3: Nein, die Gesamtzeit wird automatisch berechnet und kann nicht manuell geändert werden. Sie basiert auf den eingegebenen Aufgabenanzahlen und den jeweiligen Multiplikatoren.</p>
+            </div>
+
+            <div class="faq-item animate">
+                <h4 class="animate">Frage 4: Wie soll mir diese Webseite helfen?</h4>
+                <p class="animate">Antwort 4: Durch die Berechnung kann die Webseite die Zeit, die Sie für die Aufgaben benötigen, berechnen und noch dazu Ihre Planung, wann Sie die Aufgaben machen, verbessern. Noch dazu werden bald Videos (oder ein Algorithmus, der Videos für Sie findet) zum jeweiligen Thema Ihnen angezeigt, damit Sie besser lernen können.</p>
+            </div>
+
+         <div class="faq-item animate">
+                <h4 class="animate">Frage 5: Was zählt als eine Aufgabe?</h4>
+                <p class="animate">Antwort 5: Eine Aufgabe wird deklariert durch das Buch sozusagen. Wenn in Ihrem UNCO-Buch steht dass Sie bei Aufgabe 1 vier Buchungssätze machen müssen zählt das als 1 Aufgabe, nicht als 4.</p>
+            </div>
+        </div>
+       <footer class="animate">
+    <br>
+    <p>&copy; <span id="currentYear"></span> HAK Steyr Digital Learning</p>
+</footer>
+<script>
+    const currentDate = new Date();
+    document.getElementById('currentYear').textContent = currentDate.getFullYear();
+</script>
+    </main>
+</body>
+<!--
+
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡟⠋⠈⠙⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠤⢤⡀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠈⢇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠞⠀⠀⢠⡜⣦⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡃⠀⠀⠀⠀⠈⢷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠊⣠⠀⠀⠀⠀⢻⡘⡇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠃⠀⠀⠀⠀⠀⠀⠙⢶⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠚⢀⡼⠃⠀⠀⠀⠀⠸⣇⢳
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⠀⣀⠖⠀⠀⠀⠀⠉⠀⠀⠈⠉⠛⠛⡛⢛⠛⢳⡶⠖⠋⠀⢠⡞⠀⠀⠀⠐⠆⠀⠀⣿⢸
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣦⣀⣴⡟⠀⠀⢶⣶⣾⡿⠀⠀⣿⢸
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⡠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣏⠀⠀⠀⣶⣿⣿⡇⠀⠀⢏⡞
+⠀⠀⠀⠀⠀⠀⢀⡴⠛⠀⠀⠀⠀⠀⠀⠀⠀⢀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢦⣤⣾⣿⣿⠋⠀⠀⡀⣾⠁
+⠀⠀⠀⠀⠀⣠⠟⠁⠀⠀⠀⣀⠀⠀⠀⠀⢀⡟⠈⢀⣤⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⣏⡁⠀⠐⠚⠃⣿⠀
+⠀⠀⠀⠀⣴⠋⠀⠀⠀⡴⣿⣿⡟⣷⠀⠀⠊⠀⠴⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠀⠀⠀⠀⢹⡆
+⠀⠀⠀⣴⠃⠀⠀⠀⠀⣇⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣶⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇
+⠀⠀⣸⠃⠀⠀⠀⢠⠀⠊⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⢲⣾⣿⡏⣾⣿⣿⣿⣿⠖⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧
+⠀⢠⡇⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⠛⠿⣽⣿⡿⠏⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜
+⢀⡿⠀⠀⠀⠀⢀⣤⣶⣟⣶⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇
+⢸⠇⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇
+⣼⠀⢀⡀⠀⠀⢷⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡇
+⡇⠀⠈⠀⠀⠀⣬⠻⣿⣿⣿⡿⠙⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠁
+⢹⡀⠀⠀⠀⠈⣿⣶⣿⣿⣝⡛⢳⠭⠍⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠃⠀
+⠸⡇⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⣷⣦⣀⣀⣀⣤⣤⣴⡶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⠇⠀⠀
+⠀⢿⡄⠀⠀⠀⠀⠀⠙⣇⠉⠉⠙⠛⠻⠟⠛⠛⠉⠙⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⠋⠀⠀⠀
+⠀⠈⢧⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀
+⠀⠀⠘⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠱⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠛⢦⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⠴⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠲⠤⣤⣤⣤⣄⠀⠀⠀⠀⠀⠀⠀⢠⣤⣤⠤⠴⠒⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+
+-->
+</html>
