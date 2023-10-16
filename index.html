@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>HAK Steyr Digital Learning</title>
@@ -31,7 +30,6 @@
                 transform: translateX(0); /* Moves to the left to its original position */
             }
         }
-
 
         body {
             font-family: 'Arial', sans-serif;
@@ -83,15 +81,21 @@
             padding: 20px;
         }
 
+	class-text {
+            padding: 20px;
+        }
+
         h2 {
+padding: 0px;
             color: #9C2B3D;
             display: inline-block;
+            font-size: 24px;
         }
 
         label {
             font-weight: bold;
-            display: block;
             margin-bottom: 5px;
+	    display: inline-block
         }
 
         .subject input {
@@ -100,6 +104,7 @@
             margin-bottom: 10px;
 border: 2px solid #9C2B3D; /* Input border */
             border-radius: 5px; /* Rounded input corners */
+	display: inline-block;
         }
 
         .calculation input {
@@ -108,6 +113,7 @@ border: 2px solid #9C2B3D; /* Input border */
             margin-bottom: 10px;
 border: 2px solid #9C2B3D; /* Input border */
             border-radius: 5px; /* Rounded input corners */
+	display: inline-block;
         }
 
         #class-select {
@@ -116,6 +122,7 @@ border: 2px solid #9C2B3D; /* Input border */
             padding: 5px;
             width: 125px;
             margin-bottom: 10px;
+	display: inline-block;
         }
 
         footer {
@@ -123,18 +130,42 @@ border: 2px solid #9C2B3D; /* Input border */
             /* Align text to the left within the footer */
         }
 
-        a.lernatelier-link {
-            color: #000; /* Black color */
-            font-size: 20px; /* Larger font size */
-            text-align: right; /* Right-aligned text */
-            text-decoration: none; /* Remove underlines from links */
-            display: block; /* Make it a block element to control width */
-        }
+#cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    display: none;
+}
+
+#accept-cookies {
+    background: #9C2B3D;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+#accept-cookies:hover {
+    background: #6F1C27;
+}
+
+
+a.lernatelier-link {
+    color: #000; /* Black color */
+    font-size: 20px; /* Larger font size */
+    text-decoration: none; /* Remove underlines from links */
+    display: inline-block; /* Make it an inline-block element */
+    float: right;  /* Right-align the text within the inline-block element */
+    padding: 10px; /* Add padding to create a clickable area around the text */
+}
+
     </style>
     <script>
-        window.onload = function () {
-            document.body.classList.add('loaded');
-        };
 
 var subjectMultipliers = {
     'Religion oder Ethik': [],
@@ -168,27 +199,27 @@ function addScore(subject, ...scores) {
     }
 }
 
-addScore('Religion oder Ethik', 5, 10);
-addScore('Persönlichkeitsbildung und soziale Kompetenz', 5, 10);
-addScore('Bewegung und Sport', 5);
-addScore('Deutsch', 5, 15, 30, 45);
-addScore('Englisch einschließlich Wirtschaftssprache', 5, 10, 20, 25, 40);
-addScore('Spanisch/Italienisch/Französisch', 5, 20, 30, 40);
-addScore('Betriebswirtschaft', 5, 15, 35);
-addScore('Unternehmensrechnung und Controlling', 3, 8, 12, 20);
-addScore('Business Training, Projektmanagement, Übungsfirma u. Case Studies', 5, 10, 15);
-addScore('Wirtschaftsinformatik', 5, 10, 15);
-addScore('Officemanagement und angewandte Informatik', 5, 20);
-addScore('Politische Bildung und Geschichte (Wirtschafts- und Sozialgeschichte)', 10, 15, 20);
-addScore('Geografie (Wirtschaftsgeografie)', 5, 10, 15);
-addScore('Mathematik und angewandte Mathematik', 3, 8, 10, 30);
-addScore('Naturwissenschaften', 5, 15);
-addScore('Kaufmännischer Ausbildungsschwerpunkt + Seminare', 5, 15);
-addScore('Recht', 10, 15, 20);
-addScore('Volkswirtschaft', 10, 15, 20);
-addScore('Internationale Wirtschafts- und Kulturräume', 10, 15, 20);
-addScore('Business Behaviour', 5, 10, 20);
-addScore('Technologie, Ökologie und Warenlehre', 5, 10, 20);
+addScore('Religion oder Ethik', 5);
+addScore('Persönlichkeitsbildung und soziale Kompetenz', 5);
+addScore('Bewegung und Sport', 3);
+addScore('Deutsch', 5, 15, 30);
+addScore('Englisch einschließlich Wirtschaftssprache', 5, 10, 15);
+addScore('Spanisch/Italienisch/Französisch', 5, 10, 20);
+addScore('Betriebswirtschaft', 5, 15, 20);
+addScore('Unternehmensrechnung und Controlling', 3, 8, 12, 16);
+addScore('Business Training, Projektmanagement, Übungsfirma u. Case Studies', 5, 10, 12);
+addScore('Wirtschaftsinformatik', 5, 10);
+addScore('Officemanagement und angewandte Informatik', 5, 15);
+addScore('Politische Bildung und Geschichte (Wirtschafts- und Sozialgeschichte)', 10, 15);
+addScore('Geografie (Wirtschaftsgeografie)', 5, 10, 13);
+addScore('Mathematik und angewandte Mathematik', 3, 8, 10);
+addScore('Naturwissenschaften', 5, 10);
+addScore('Kaufmännischer Ausbildungsschwerpunkt + Seminare', 5, 10);
+addScore('Recht', 10, 15, 17);
+addScore('Volkswirtschaft', 10, 15, 17);
+addScore('Internationale Wirtschafts- und Kulturräume', 10, 15, 17);
+addScore('Business Behaviour', 5, 10, 15);
+addScore('Technologie, Ökologie und Warenlehre', 5, 10, 17);
 
 function calculateAverage(subject) {
     if (subject in subjectMultipliers) {
@@ -306,26 +337,27 @@ function calculateAverage(subject) {
             };
 
             var selectedClass = classSelect.value;
+localStorage.setItem('selectedClass', selectedClass);
 
             if (selectedClass === "") {
                 classText.innerHTML = '<div class="animate">Wählen Sie eine Klasse aus, um die Aufgaben in Minuten zu konvertieren. Am Ende können Sie ihre echte Zeit, die Sie dafür gebraucht haben in Minuten eintragen und damit einem Algorithmus helfen!</div>';
-                faqContainer.style.display = 'block';
+                faqContainer.style.display = 'inline-block';
             } else {
                 var subjects = classContent[selectedClass];
-
+		
                 subjects.sort();
                 var html = '<h2 class="animate">Fächer der ' + selectedClass + '. Klasse</h2>';
                 html += '<form class="animate">';
 
                 for (var i = 0; i < subjects.length; i++) {
                     html += '<div class="subject animate">';
-                    html += '<label for="' + subjects[i] + '" class="animate">' + subjects[i] + ':</label>';
+                    html += '<label for="' + subjects[i] + '" class="animate">' + subjects[i] + ':</label><br>';
                     html += '<input type="number" id="' + subjects[i] + '" name="' + subjects[i] + '_tasks" placeholder="Aufgabenanzahl" oninput="updateCalculation()" class="animate">';
                     html += '</div>';
                 }
 
                 html += '<div class="calculation animate">';
-                html += '<label for="total_calculation" class="animate">Gesamt:</label>';
+                html += '<label for="total_calculation" class="animate">Gesamt:</label><br>';
                 html += '<input type="text" id="total_calculation" name="total_calculation" readonly placeholder="Zeit in Minuten" class="animate">';
                 html += '</div>';
 
@@ -334,7 +366,7 @@ function calculateAverage(subject) {
 
                 // Show FAQ container only for "Bitte auswählen"
                 if (selectedClass === "Bitte auswählen") {
-                    faqContainer.style.display = 'block';
+                    faqContainer.style.display = 'inline-block';
                 } else {
                     faqContainer.style.display = 'none';
                 }
@@ -371,6 +403,10 @@ function updateCalculation() {
 </head>
 
 <body>
+<div id="cookie-consent" class="animate">
+    <p>Diese Website verwendet Cookies, um sicherzustellen, dass Sie die beste Erfahrung auf unserer Website erhalten.</p>
+    <button id="accept-cookies">Zustimmen</button>
+</div>
     <header>
         <h1>Willkommen bei <a href="https://www.hak-steyr.at" style="text-decoration: none; color: #fff;">HAK Steyr</a> Digital Learning</h1>
     </header>
@@ -378,7 +414,9 @@ function updateCalculation() {
         <a href="lernatelier.html" class="lernatelier-link animate2">Lernatelier</a>
 
         <h2 class="animate">Klasse auswählen</h2>
+<br>
         <label for="class-select" class="animate">Klasse auswählen:</label>
+<br>
         <select id="class-select" onchange="showClassContent()" class="animate">
             <option value="" selected>Bitte auswählen</option>
             <option value="1">1. Klasse</option>
@@ -423,9 +461,43 @@ function updateCalculation() {
     <p>&copy; <span id="currentYear"></span> HAK Steyr Digital Learning</p>
 </footer>
 <script>
+        window.onload = function () {
+            // Get the classSelect element
+            var classSelect = document.getElementById('class-select');
+
+            // Load the selected class from localStorage
+            var selectedClass = localStorage.getItem('selectedClass');
+
+            // Set the selected class in the dropdown if it exists in localStorage
+            if (selectedClass) {
+                classSelect.value = selectedClass;
+            }
+
+            // Run the showClassContent function
+            showClassContent();
+
+            document.body.classList.add('loaded');
+        };
     const currentDate = new Date();
     document.getElementById('currentYear').textContent = currentDate.getFullYear();
+    // Check if the user has accepted cookies
+    if (localStorage.getItem("cookieConsent") !== "true") {
+        // Show the cookie consent banner
+        var cookieConsent = document.getElementById("cookie-consent");
+        cookieConsent.style.display = "block";
+    }
+
+    // Function to handle the "Accept" button click
+    document.getElementById("accept-cookies").addEventListener("click", function () {
+        // Set a localStorage flag to remember user's choice
+        localStorage.setItem("cookieConsent", "true");
+
+        // Hide the cookie consent banner
+        var cookieConsent = document.getElementById("cookie-consent");
+        cookieConsent.style.display = "none";
+    });
 </script>
+
     </main>
 </body>
 <!--
