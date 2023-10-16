@@ -4,7 +4,6 @@
       <meta charset="UTF-8">
       <title>HAK Steyr Digital Learning</title>
       <style>
-         /* Add the animate class to animate elements */
          .animate {
          animation: slideIn 1s forwards;
          opacity: 0;
@@ -19,12 +18,12 @@
          .animate2 {
          animation: slideIn2 1s forwards;
          opacity: 0;
-         transform: translateX(20px); /* Starts off-screen to the right */
+         transform: translateX(20px)
          }
          @keyframes slideIn2 {
          to {
          opacity: 1;
-         transform: translateX(0); /* Moves to the left to its original position */
+         transform: translateX(0);
          }
          }
          body {
@@ -86,21 +85,21 @@
          width: 111px;
          padding: 5px;
          margin-bottom: 10px;
-         border: 2px solid #9C2B3D; /* Input border */
-         border-radius: 5px; /* Rounded input corners */
+         border: 2px solid #9C2B3D;
+         border-radius: 5px;
          display: inline-block;
          }
          .calculation input {
          width: 111px;
          padding: 5px;
          margin-bottom: 10px;
-         border: 2px solid #9C2B3D; /* Input border */
-         border-radius: 5px; /* Rounded input corners */
+         border: 2px solid #9C2B3D;
+         border-radius: 5px;
          display: inline-block;
          }
          #class-select {
-         border: 2px solid #9C2B3D; /* Input border */
-         border-radius: 5px; /* Rounded input corners */
+         border: 2px solid #9C2B3D;
+         border-radius: 5px;
          padding: 5px;
          width: 125px;
          margin-bottom: 10px;
@@ -108,7 +107,6 @@
          }
          footer {
          text-align: left;
-         /* Align text to the left within the footer */
          }
          #cookie-consent {
          position: fixed;
@@ -132,12 +130,12 @@
          background: #6F1C27;
          }
          a.lernatelier-link {
-         color: #000; /* Black color */
-         font-size: 20px; /* Larger font size */
-         text-decoration: none; /* Remove underlines from links */
-         display: inline-block; /* Make it an inline-block element */
-         float: right;  /* Right-align the text within the inline-block element */
-         padding: 10px; /* Add padding to create a clickable area around the text */
+         color: #000;
+         font-size: 20px;
+         text-decoration: none;
+         display: inline-block;
+         float: right;
+         padding: 10px;
          }
       </style>
       <script>
@@ -167,7 +165,7 @@
          
          function addScore(subject, ...scores) {
              if (subject in subjectMultipliers) {
-                 subjectMultipliers[subject] = scores; // Replace the array with the new scores
+                 subjectMultipliers[subject] = scores;
              } else {
                  console.error("Subject not found: " + subject);
              }
@@ -199,13 +197,13 @@
              if (subject in subjectMultipliers) {
                  var scores = subjectMultipliers[subject];
                  if (scores.length === 0) {
-                     return 0; // Return 0 if no scores have been added yet
+                     return 0;
                  }
                  var sum = scores.reduce((a, b) => a + b, 0);
                  return sum / scores.length;
              } else {
                  console.error("Subject not found: " + subject);
-                 return 0; // Default value if the subject is not found
+                 return 0;
              }
          }
          
@@ -214,11 +212,9 @@
                      var classText = document.getElementById('class-text');
                      var faqContainer = document.getElementById('faq-container');
          
-                     // Reset animation classes
                      classSelect.classList.remove('animated');
                      classText.classList.remove('animated');
          
-                     // Delay removal of 'animate' class for reanimation
                      setTimeout(function () {
                          classSelect.classList.add('animate');
                          classText.classList.add('animate');
@@ -338,14 +334,12 @@
                          html += '</form>';
                          classText.innerHTML = html;
          
-                         // Show FAQ container only for "Bitte auswählen"
                          if (selectedClass === "Bitte auswählen") {
                              faqContainer.style.display = 'inline-block';
                          } else {
                              faqContainer.style.display = 'none';
                          }
          
-                         // Trigger animation after updating content
                          setTimeout(function () {
                              var animatedElements = document.querySelectorAll('.animate');
                              animatedElements.forEach(function (element) {
@@ -370,7 +364,6 @@
                  }
              });
          
-             // Use toFixed(2) to round the total to 2 decimal places
              totalInput.value = total.toFixed(0);
          }
              
@@ -430,37 +423,28 @@
          </footer>
          <script>
             window.onload = function () {
-                // Get the classSelect element
                 var classSelect = document.getElementById('class-select');
             
-                // Load the selected class from localStorage
                 var selectedClass = localStorage.getItem('selectedClass');
             
-                // Set the selected class in the dropdown if it exists in localStorage
                 if (selectedClass) {
                     classSelect.value = selectedClass;
                 }
             
-                // Run the showClassContent function
                 showClassContent();
             
                 document.body.classList.add('loaded');
             };
             const currentDate = new Date();
             document.getElementById('currentYear').textContent = currentDate.getFullYear();
-            // Check if the user has accepted cookies
             if (localStorage.getItem("cookieConsent") !== "true") {
-            // Show the cookie consent banner
             var cookieConsent = document.getElementById("cookie-consent");
             cookieConsent.style.display = "block";
             }
             
-            // Function to handle the "Accept" button click
             document.getElementById("accept-cookies").addEventListener("click", function () {
-            // Set a localStorage flag to remember user's choice
             localStorage.setItem("cookieConsent", "true");
             
-            // Hide the cookie consent banner
             var cookieConsent = document.getElementById("cookie-consent");
             cookieConsent.style.display = "none";
             });
